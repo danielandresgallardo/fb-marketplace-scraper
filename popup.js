@@ -19,19 +19,37 @@ function scrapeMarketplaceListings() {
     seen.add(link);
 
     const lines = item.innerText.split("\n").map(l => l.trim()).filter(Boolean);
+
     let price = "N/A";
     let title = "No title";
+    let location = "Unknown";
+
+    let foundPrice = false;
+    let foundTitle = false;
 
     for (const line of lines) {
-      if (/^(NT\$|\$)[\d,]+/.test(line)) {
-        if (price === "N/A") price = line;
-      } else {
-        if (title === "No title") title = line;
+      if (/^(NT\$|\$)?[\d,]+$/.test(line) || /^Free$/i.test(line)) {
+        if (!foundPrice) {
+          price = line;
+          foundPrice = true;
+        }
+      } else if (!foundTitle) {
+        title = line;
+        foundTitle = true;
       }
-      if (price !== "N/A" && title !== "No title") break;
     }
 
-    listings.push({ title, price, link });
+    // Try to get location from nearby image alt text (if present)
+    const img = item.querySelector('img[alt*=" in "]');
+    if (img) {
+      const alt = img.alt;
+      const match = alt.match(/ in (.+)$/);
+      if (match && match[1]) {
+        location = match[1].trim();
+      }
+    }
+
+    listings.push({ title, price, location, link });
   });
 
   if (listings.length === 0) {
@@ -40,12 +58,11 @@ function scrapeMarketplaceListings() {
   }
 
   const now = new Date();
-  const timestamp = now.toISOString().replace(/[:.]/g, '-'); // e.g. "2025-06-25T14-30-00-000Z"
-  const filename = `marketplace_data_${timestamp}.json`;
+  const timestamp = now.toLocaleString('sv-SE', { hour12: false }).replace(/[: ]/g, '-');
+  const filename = `marketplace_${timestamp}.json`;
 
   const blob = new Blob([JSON.stringify(listings, null, 2)], { type: "application/json" });
   const url = URL.createObjectURL(blob);
-
   const a = document.createElement("a");
   a.href = url;
   a.download = filename;

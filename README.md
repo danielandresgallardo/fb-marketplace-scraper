@@ -6,7 +6,7 @@ This is a simple Chrome extension that allows you to **manually scrape visible l
 
 ## 🔧 Features
 
-- ✅ Scrapes visible Facebook Marketplace listings (price, title, link)
+- ✅ Scrapes visible Facebook Marketplace listings (title, price, location, and link)
 - ✅ Avoids duplicate entries
 - ✅ Works with NT$ or $ currency listings
 - ✅ Outputs clean, structured JSON data
@@ -49,6 +49,7 @@ This ensures each scrape is saved uniquely and chronologically.
 - It extracts:
   - `title`: the first line that’s not a price
   - `price`: the first line that looks like `NT$####` or `$####`
+  - `location`: the location shown on the listing (e.g., “New Taipei City”)
   - `link`: the full URL to the listing
 - The results are collected into an array and downloaded as a `.json` file.
 
