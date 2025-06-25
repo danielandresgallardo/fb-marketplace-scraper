@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "FB Marketplace Scraper",
+  "version": "1.0",
+  "description": "Scrape visible Facebook Marketplace listings.",
+  "permissions": ["scripting", "activeTab", "downloads"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "shovel.png",
+      "48": "shovel.png",
+      "128": "shovel.png"
+    }
+  },
+  "host_permissions": ["*://www.facebook.com/marketplace/*"]
+}
