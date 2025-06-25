@@ -34,7 +34,10 @@ This is a simple Chrome extension that allows you to **manually scrape visible l
 5. Go to [Facebook Marketplace](https://www.facebook.com/marketplace/), and perform a search.
 6. **Scroll down to load more results** (optional).
 7. Click the extension icon and press **“Scrape Listings”**.
-8. A file named `marketplace_data.json` will download with the scraped listings.
+8.	A JSON file containing the scraped listings will be automatically downloaded.
+The filename includes a timestamp in ISO format, for example:
+marketplace_data_2025-06-25T07-11-01-350Z.json
+This ensures each scrape is saved uniquely and chronologically.
 
 ---
 

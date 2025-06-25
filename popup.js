@@ -39,11 +39,16 @@ function scrapeMarketplaceListings() {
     return;
   }
 
+  const now = new Date();
+  const timestamp = now.toISOString().replace(/[:.]/g, '-'); // e.g. "2025-06-25T14-30-00-000Z"
+  const filename = `marketplace_data_${timestamp}.json`;
+
   const blob = new Blob([JSON.stringify(listings, null, 2)], { type: "application/json" });
   const url = URL.createObjectURL(blob);
+
   const a = document.createElement("a");
   a.href = url;
-  a.download = "marketplace_data.json";
+  a.download = filename;
   a.click();
   URL.revokeObjectURL(url);
 }
